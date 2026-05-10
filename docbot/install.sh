@@ -24,9 +24,8 @@ install_user() {
   echo "✅ Installed docbot extension (user-scoped)"
   echo "   $target → $DOCBOT_DIR"
   echo ""
-  echo "Available commands: /docbot, /docbot-explore, /docbot-review, /docbot-design,"
-  echo "  /docbot-prototype, /docbot-diagram, /docbot-deck, /docbot-research,"
-  echo "  /docbot-report, /docbot-editor"
+  echo "Available command: /docbot <subtask> <topic>"
+  echo "  Run /docbot help to see available subtasks."
 }
 
 install_project() {

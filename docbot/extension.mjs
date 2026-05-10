@@ -77,27 +77,63 @@ const specialists = [
   },
 ];
 
+const slugMap = Object.fromEntries(specialists.map((s) => [s.slug, s]));
+
+function buildHelpText() {
+  const lines = [
+    "Available subtasks:\n",
+    ...specialists.map((s) => `  ${s.slug.padEnd(12)} ${s.description}`),
+    "",
+    "Usage: /docbot <subtask> <topic>",
+    "  e.g. /docbot diagram the authentication flow",
+    "",
+    "Run /docbot help to see this list.",
+  ];
+  return lines.join("\n");
+}
+
+function parseSubtask(message) {
+  if (!message) return { slug: null, rest: "" };
+  const trimmed = message.trim();
+  const firstWord = trimmed.split(/\s+/)[0].toLowerCase();
+  if (slugMap[firstWord]) {
+    return { slug: firstWord, rest: trimmed.slice(firstWord.length).trim() };
+  }
+  return { slug: null, rest: trimmed };
+}
+
 const slashCommands = [
   {
     name: "docbot",
-    description: "List available docbot generators or route to the right one",
+    description: "Generate HTML documents — run /docbot help for subtasks",
     action: async (session, params) => {
+      const message = params?.message ?? "";
+      const { slug, rest } = parseSubtask(message);
+
+      // help / --help / no args → show available subtasks via orchestrator
+      if (!slug && (!message.trim() || /^(help|--help|-h)$/i.test(message.trim()))) {
+        const orchestratorPrompt = loadPrompt("orchestrator");
+        await session.send({
+          prompt: orchestratorPrompt + "\n\n## User Request\n\nList all available documentation agents.",
+        });
+        return;
+      }
+
+      // Known subtask → route to specialist
+      if (slug) {
+        const userMessage = rest || `Generate a ${slug} document.`;
+        const prompt = buildPrompt(slug, userMessage);
+        await session.send({ prompt });
+        return;
+      }
+
+      // Unknown subtask → let orchestrator route it
       const orchestratorPrompt = loadPrompt("orchestrator");
-      const userMessage = params?.message ?? "List all available documentation agents.";
       await session.send({
-        prompt: orchestratorPrompt + "\n\n## User Request\n\n" + userMessage,
+        prompt: orchestratorPrompt + "\n\n## User Request\n\n" + message,
       });
     },
   },
-  ...specialists.map((spec) => ({
-    name: spec.name,
-    description: spec.description,
-    action: async (session, params) => {
-      const userMessage = params?.message ?? `Generate a ${spec.slug} document.`;
-      const prompt = buildPrompt(spec.slug, userMessage);
-      await session.send({ prompt });
-    },
-  })),
 ];
 
 await joinSession({
