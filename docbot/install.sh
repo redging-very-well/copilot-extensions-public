@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-DOCBOT_DIR="$SCRIPT_DIR/docbot"
+DOCBOT_DIR="$SCRIPT_DIR"
 
 usage() {
   echo "Usage: install.sh [--user | --project]"
