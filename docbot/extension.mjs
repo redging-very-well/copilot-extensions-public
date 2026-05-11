@@ -102,19 +102,28 @@ function parseSubtask(message) {
   return { slug: null, rest: trimmed };
 }
 
+// Declare session first so command handlers can reference it via closure.
+// It's assigned once joinSession() resolves — before any user command fires.
+let session;
+
 const slashCommands = [
   {
     name: "docbot",
     description: "Generate HTML documents — run /docbot help for subtasks",
-    action: async (session, params) => {
-      const message = params?.message ?? "";
+    handler: async ({ args }) => {
+      const message = args ?? "";
       const { slug, rest } = parseSubtask(message);
 
       // help / --help / no args → show available subtasks via orchestrator
-      if (!slug && (!message.trim() || /^(help|--help|-h)$/i.test(message.trim()))) {
+      if (
+        !slug &&
+        (!message.trim() || /^(help|--help|-h)$/i.test(message.trim()))
+      ) {
         const orchestratorPrompt = loadPrompt("orchestrator");
         await session.send({
-          prompt: orchestratorPrompt + "\n\n## User Request\n\nList all available documentation agents.",
+          prompt:
+            orchestratorPrompt +
+            "\n\n## User Request\n\nList all available documentation agents.",
         });
         return;
       }
@@ -136,21 +145,15 @@ const slashCommands = [
   },
 ];
 
-await joinSession({
+session = await joinSession({
   onPermissionRequest: ({ toolName }) => {
-    const safeTools = [
-      "read_file",
-      "grep",
-      "glob",
-      "view",
-      "list_directory",
-    ];
+    const safeTools = ["read_file", "grep", "glob", "view", "list_directory"];
     if (safeTools.includes(toolName)) {
       return { permissionDecision: "allow" };
     }
     return { permissionDecision: "ask" };
   },
-  slashCommands,
+  commands: slashCommands,
   tools: [],
   hooks: {},
 });
