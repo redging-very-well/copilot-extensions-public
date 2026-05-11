@@ -20,9 +20,9 @@ install_user() {
     exit 1
   fi
   mkdir -p "$HOME/.copilot/extensions"
-  ln -s "$DOCBOT_DIR" "$target"
+  cp -R "$DOCBOT_DIR" "$target"
   echo "✅ Installed docbot extension (user-scoped)"
-  echo "   $target → $DOCBOT_DIR"
+  echo "   Copied to $target"
   echo ""
   echo "Available command: /docbot <subtask> <topic>"
   echo "  Run /docbot help to see available subtasks."
@@ -41,9 +41,9 @@ install_project() {
     exit 1
   fi
   mkdir -p "$git_root/.github/extensions"
-  ln -s "$DOCBOT_DIR" "$target"
+  cp -R "$DOCBOT_DIR" "$target"
   echo "✅ Installed docbot extension (project-scoped)"
-  echo "   $target → $DOCBOT_DIR"
+  echo "   Copied to $target"
 }
 
 case "${1:---user}" in

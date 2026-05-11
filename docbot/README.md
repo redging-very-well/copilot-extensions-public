@@ -27,7 +27,7 @@ docbot/install.sh           # user-scoped (all projects)
 docbot/install.sh --project # project-scoped (current repo only)
 ```
 
-The install script creates a symlink — `git pull` to update.
+The install script copies the extension files. Re-run it after `git pull` to update.
 
 ### Verify
 
@@ -52,8 +52,8 @@ Each command reads relevant source files from your project, then generates a sel
 ## Uninstall
 
 ```bash
-rm ~/.copilot/extensions/docbot    # user-scoped
-rm .github/extensions/docbot       # project-scoped
+docbot/uninstall.sh           # user-scoped
+docbot/uninstall.sh --project # project-scoped
 ```
 
 ## How It Works
@@ -63,7 +63,7 @@ The extension registers a single `/docbot` slash command via `joinSession()`. Th
 ```
 docbot/
 ├── extension.mjs       # Entry point — registers all slash commands
-├── install.sh          # Symlink installer
+├── install.sh          # Installer (copies files)
 └── prompts/
     ├── shared.md        # Design system (CSS variables, typography, components)
     ├── orchestrator.md  # /docbot help and routing logic
