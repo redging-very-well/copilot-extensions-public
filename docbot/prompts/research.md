@@ -68,7 +68,7 @@ Two-column grid on desktop (`minmax(0, 1fr) 280px`), single column on mobile:
 
 ## Design System
 
-Follow the docbot-base instructions exactly for all CSS variables, typography, component styles, and code blocks.
+Follow the shared design system (`prompts/shared.md`) exactly for all CSS variables, typography, component styles, and code blocks.
 
 ## Process
 

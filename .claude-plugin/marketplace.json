@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "redging-extensions",
+  "description": "Coding-agent extensions for Claude Code and GitHub Copilot CLI",
+  "owner": {
+    "name": "redging-very-well"
+  },
+  "plugins": [
+    {
+      "name": "docbot",
+      "description": "9 specialist HTML document generators — slide decks, SVG diagrams, design system sheets, prototypes, reports, and throwaway editing UIs, all as self-contained single files",
+      "category": "documentation",
+      "source": "./docbot",
+      "homepage": "https://github.com/redging-very-well/copilot-extensions-public/tree/main/docbot"
+    }
+  ]
+}

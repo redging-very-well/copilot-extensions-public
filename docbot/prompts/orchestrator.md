@@ -34,4 +34,4 @@ Guide the user to invoke the appropriate subtask directly. For example:
 
 ## Design System
 
-All docbot agents share the same visual design system — warm ivory backgrounds, serif headings, monospace code blocks, clay/olive accent colors. See the docbot-base instructions for full details. Output is always a self-contained HTML file saved to `docs/html/`.
+All docbot agents share the same visual design system — warm ivory backgrounds, serif headings, monospace code blocks, clay/olive accent colors. See the shared design system (`prompts/shared.md`) for full details. Output is always a self-contained HTML file saved to `docs/html/`.

@@ -173,7 +173,7 @@ go(0);
 
 ## Design System
 
-Follow the docbot-base instructions for CSS variables. Key adaptations for decks:
+Follow the shared design system (`prompts/shared.md`) for CSS variables. Key adaptations for decks:
 - `body` padding is `0` (slides are full-viewport)
 - Background stays `var(--ivory)`
 - Fonts scale up: body text at 22px, headings at 36-48px

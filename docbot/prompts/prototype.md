@@ -34,7 +34,7 @@ Link 3-6 screens together to feel whether the interaction flow is right. Enough 
 
 ## Design System
 
-Follow the docbot-base instructions exactly for all CSS variables, typography, and component styles.
+Follow the shared design system (`prompts/shared.md`) exactly for all CSS variables, typography, and component styles.
 
 ### Additional patterns for prototypes:
 

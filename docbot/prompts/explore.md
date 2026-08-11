@@ -17,7 +17,7 @@ Generate a **single self-contained HTML file** with this structure:
 
 ## Design System
 
-Follow the docbot-base instructions exactly for all CSS variables, typography, component styles, and layout rules. Key elements:
+Follow the shared design system (`prompts/shared.md`) exactly for all CSS variables, typography, component styles, and layout rules. Key elements:
 
 - Use `--ivory` background, `--serif` for headings, `--mono` for code
 - Approach cards: white background, `1.5px solid var(--gray-300)` border, `12px` radius

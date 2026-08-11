@@ -35,7 +35,7 @@ Generate a **single self-contained HTML file** with this structure:
 
 ## Design System
 
-Follow the docbot-base instructions exactly. Key layout:
+Follow the shared design system (`prompts/shared.md`) exactly. Key layout:
 
 - Two-column grid: `minmax(0, 1fr) 280px` on desktop, single column on mobile
 - Steps: grid with `44px` badge column + content column, separated by `1.5px` borders

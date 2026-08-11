@@ -50,7 +50,7 @@ Arrow marker definition:
 
 ## Design System
 
-Follow the docbot-base instructions exactly for all CSS variables, typography, and component styles.
+Follow the shared design system (`prompts/shared.md`) exactly for all CSS variables, typography, and component styles.
 
 ## Process
 

@@ -33,7 +33,7 @@ Render every size, state, and intent of a single component laid out on a single 
 
 ## Design System
 
-Follow the docbot-base instructions exactly for all CSS variables, typography, and component styles.
+Follow the shared design system (`prompts/shared.md`) exactly for all CSS variables, typography, and component styles.
 
 ### Additional patterns for design docs:
 

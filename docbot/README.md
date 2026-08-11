@@ -19,7 +19,20 @@ Docbot generates polished, self-contained HTML documents — slide decks, archit
 | `/docbot report` | Status updates with KPI strips, incident post-mortems with timelines |
 | `/docbot editor` | Throwaway editing UIs (triage boards, config editors) with export buttons |
 
-## Installation
+Docbot runs on both **Claude Code** and the **GitHub Copilot CLI**, driven by the same prompts.
+
+## Installation — Claude Code
+
+In a Claude Code session:
+
+```
+/plugin marketplace add redging-very-well/copilot-extensions-public
+/plugin install docbot
+```
+
+Verify with `/help` — you should see `/docbot` listed under the plugin. Update later with `/plugin marketplace update redging-extensions`.
+
+## Installation — Copilot CLI
 
 ```bash
 # From the repo root:
@@ -27,15 +40,9 @@ docbot/install.sh           # user-scoped (all projects)
 docbot/install.sh --project # project-scoped (current repo only)
 ```
 
-The install script copies the extension files. Re-run it after `git pull` to update.
+The install script copies the extension files, and refuses to overwrite an existing install. To update after a `git pull`, run `docbot/uninstall.sh` first, then `docbot/install.sh`.
 
-### Verify
-
-```
-/extensions list
-```
-
-You should see `docbot` listed. Type `/docbot` to get started.
+Verify with `/extensions list` — you should see `docbot`. Type `/docbot` to get started.
 
 ## Usage
 
@@ -49,33 +56,53 @@ You should see `docbot` listed. Type `/docbot` to get started.
 
 Each command reads relevant source files from your project, then generates a self-contained HTML file saved to `docs/html/` in your working directory.
 
+On Claude Code you can also skip the slash command — each specialist is a subagent, so asking "draw me a diagram of the auth flow" or "write up the sprint status" routes to the right one on its own.
+
 ## Uninstall
 
 ```bash
+# Claude Code
+/plugin uninstall docbot
+
+# Copilot CLI
 docbot/uninstall.sh           # user-scoped
 docbot/uninstall.sh --project # project-scoped
 ```
 
 ## How It Works
 
-The extension registers a single `/docbot` slash command via `joinSession()`. The first word of the message is matched against known subtasks (explore, review, design, etc.). If matched, the shared design system prompt and specialist prompt are combined with your request and sent to the agent. If no subtask matches, the orchestrator helps route you.
+Both hosts register a single `/docbot` command. The first word of your message is matched against the known subtasks (explore, review, design, …). If it matches, the shared design system and that specialist's brief are applied to your request. If it doesn't, the orchestrator helps route you.
+
+The two hosts differ only in the front-end:
+
+- **Claude Code** — `commands/docbot.md` parses the subtask and delegates to the matching subagent in `agents/`, which reads `prompts/shared.md` plus its own brief and generates the document in its own context.
+- **Copilot CLI** — `extension.mjs` registers the command via `joinSession()` and concatenates the same two prompt files with your request before sending.
 
 ```
 docbot/
-├── extension.mjs       # Entry point — registers all slash commands
-├── install.sh          # Installer (copies files)
-└── prompts/
-    ├── shared.md        # Design system (CSS variables, typography, components)
-    ├── orchestrator.md  # /docbot help and routing logic
-    ├── deck.md          # /docbot deck specialist prompt
-    ├── design.md        # /docbot design
-    ├── diagram.md       # /docbot diagram
-    ├── editor.md        # /docbot editor
-    ├── explore.md       # /docbot explore
-    ├── prototype.md     # /docbot prototype
-    ├── report.md        # /docbot report
-    ├── research.md      # /docbot research
-    └── review.md        # /docbot review
+├── prompts/                 # Host-neutral — the single source of truth
+│   ├── shared.md            #   Design system (CSS variables, typography, components)
+│   ├── orchestrator.md      #   /docbot help and routing
+│   ├── deck.md              #   /docbot deck specialist prompt
+│   ├── design.md            #   /docbot design
+│   ├── diagram.md           #   /docbot diagram
+│   ├── editor.md            #   /docbot editor
+│   ├── explore.md           #   /docbot explore
+│   ├── prototype.md         #   /docbot prototype
+│   ├── report.md            #   /docbot report
+│   ├── research.md          #   /docbot research
+│   └── review.md            #   /docbot review
+│
+├── .claude-plugin/          # Claude Code
+│   └── plugin.json
+├── commands/
+│   └── docbot.md            #   The /docbot command — parses subtask, delegates
+├── agents/
+│   └── docbot-*.md          #   9 specialist subagents
+│
+├── extension.mjs            # Copilot CLI entry point
+├── install.sh               # Copilot CLI installer (copies files)
+└── uninstall.sh
 ```
 
 ## Design System
@@ -93,5 +120,7 @@ The full design system is defined in [`prompts/shared.md`](prompts/shared.md).
 ## Adding a New Specialist
 
 1. Create `prompts/<name>.md` with the specialist prompt
-2. Add an entry to the `specialists` array in `extension.mjs`
-3. Update this README
+2. Add `agents/docbot-<name>.md` — a thin subagent that reads `prompts/shared.md` and its own brief (copy an existing one)
+3. Add a row to the subtask table in `commands/docbot.md`
+4. Add an entry to the `specialists` array in `extension.mjs`
+5. Update this README

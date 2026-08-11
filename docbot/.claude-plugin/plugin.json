@@ -1,0 +1,8 @@
+{
+  "name": "docbot",
+  "description": "Generate self-contained HTML documents — decks, diagrams, design systems, prototypes, reports",
+  "version": "0.1.0",
+  "author": {
+    "name": "redging-very-well"
+  }
+}
