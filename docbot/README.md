@@ -26,7 +26,7 @@ Docbot runs on both **Claude Code** and the **GitHub Copilot CLI**, driven by th
 In a Claude Code session:
 
 ```
-/plugin marketplace add redging-very-well/copilot-extensions-public
+/plugin marketplace add redging-very-well/ai-extensions-public
 /plugin install docbot
 ```
 

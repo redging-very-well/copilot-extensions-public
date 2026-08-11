@@ -11,7 +11,7 @@
       "description": "9 specialist HTML document generators — slide decks, SVG diagrams, design system sheets, prototypes, reports, and throwaway editing UIs, all as self-contained single files",
       "category": "documentation",
       "source": "./docbot",
-      "homepage": "https://github.com/redging-very-well/copilot-extensions-public/tree/main/docbot"
+      "homepage": "https://github.com/redging-very-well/ai-extensions-public/tree/main/docbot"
     }
   ]
 }

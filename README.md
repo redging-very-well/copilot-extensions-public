@@ -13,7 +13,7 @@ A collection of extensions that add slash commands and specialized capabilities 
 This repo is a plugin marketplace. In a Claude Code session:
 
 ```
-/plugin marketplace add redging-very-well/copilot-extensions-public
+/plugin marketplace add redging-very-well/ai-extensions-public
 /plugin install docbot
 ```
 
@@ -24,8 +24,8 @@ Then `/docbot help` to get started. Update later with `/plugin marketplace updat
 Requires Copilot CLI v1.0.5+ and an active Copilot subscription.
 
 ```bash
-git clone https://github.com/redging-very-well/copilot-extensions-public.git
-cd copilot-extensions-public
+git clone https://github.com/redging-very-well/ai-extensions-public.git
+cd ai-extensions-public
 <extension>/install.sh           # user-scoped   → ~/.copilot/extensions/
 <extension>/install.sh --project # project-scoped → .github/extensions/
 ```
